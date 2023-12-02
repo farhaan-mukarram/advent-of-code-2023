@@ -1,8 +1,8 @@
 from helper import parseFile
 
-if __name__ == "__main__":
-    FILENAME = "input.txt"
+FILENAME = "input.txt"
 
+if __name__ == "__main__":
     lines = parseFile(FILENAME)
 
     sum = 0
@@ -13,4 +13,4 @@ if __name__ == "__main__":
         number = digits[0] + digits[-1]
         sum += int(number)
 
-    print("The sum is {}".format(sum))
+    print("The sum of all calibration values is {}".format(sum))
