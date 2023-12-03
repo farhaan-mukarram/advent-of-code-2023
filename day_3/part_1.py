@@ -5,8 +5,6 @@ FILENAME = "input.txt"
 
 SPECIAL_CHAR_REGEX = r"[^\.\d\s]"
 
-# def check_if_part_number(current_line, next_line, prev_line)
-
 DIRECTIONS = {
     "NORTH": {"line_index": -1, "character_index": 0},
     "SOUTH": {"line_index": 1, "character_index": 0},
@@ -19,9 +17,9 @@ DIRECTIONS = {
 }
 
 
-def search_for_special_chars(lines, line_index, character_index):
-    special_char_flag_array = []
-
+def get_search_directions(
+    line_index: int, character_index: int, total_number_of_lines: int, line_length
+):
     search_directions = None
 
     # first line
@@ -35,7 +33,7 @@ def search_for_special_chars(lines, line_index, character_index):
             ]
 
         # last character
-        elif character_index == len(lines[0]) - 1:
+        elif character_index == line_length - 1:
             search_directions = [
                 DIRECTIONS["WEST"],
                 DIRECTIONS["SOUTH"],
@@ -52,7 +50,7 @@ def search_for_special_chars(lines, line_index, character_index):
             ]
 
     # last line
-    elif line_index == len(lines) - 1:
+    elif line_index == total_number_of_lines - 1:
         # first character
         if character_index == 0:
             search_directions = [
@@ -62,7 +60,7 @@ def search_for_special_chars(lines, line_index, character_index):
             ]
 
         # last character
-        elif character_index == len(lines[0]) - 1:
+        elif character_index == line_length - 1:
             search_directions = [
                 DIRECTIONS["NORTH"],
                 DIRECTIONS["WEST"],
@@ -90,7 +88,7 @@ def search_for_special_chars(lines, line_index, character_index):
             ]
 
         # last character
-        elif character_index == len(lines[0]) - 1:
+        elif character_index == line_length - 1:
             search_directions = [
                 DIRECTIONS["NORTH"],
                 DIRECTIONS["SOUTH"],
@@ -101,6 +99,19 @@ def search_for_special_chars(lines, line_index, character_index):
 
         else:
             search_directions = [value for value in DIRECTIONS.values()]
+
+    return search_directions
+
+
+def search_for_special_chars(lines: list[str], line_index: int, character_index: int):
+    special_char_flag_array = []
+
+    search_directions = get_search_directions(
+        line_index=line_index,
+        character_index=character_index,
+        total_number_of_lines=len(lines),
+        line_length=len(lines[0]),
+    )
 
     for direction in search_directions:
         relative_line_index, relative_character_index = (
